@@ -1,7 +1,11 @@
 import esphome.config_validation as cv
 import esphome.codegen as cg
-from esphome.const import CONF_ID
+from esphome.const import (
+    CONF_ID,
+    CONF_PORT
+);
 from esphome.core import coroutine_with_priority, CORE
+
 
 CODEOWNERS = ["@crossan007"]
 DEPENDENCIES = ["network"]
@@ -14,9 +18,9 @@ CONF_RTSP_SERVER_ID = "rtsp_server_id"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(RTSPServer),
+        cv.Optional(CONF_PORT, default=8555): cv.port,
     }
 )
-
 
 @coroutine_with_priority(65.0)
 def to_code(config):
@@ -25,3 +29,4 @@ def to_code(config):
 
     # https://github.com/geeksville/Micro-RTSP
     cg.add_library("Micro-RTSP", "0.1.6")
+    cg.add(var.set_port(config[CONF_PORT]))

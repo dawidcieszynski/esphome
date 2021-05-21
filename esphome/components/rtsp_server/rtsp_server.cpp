@@ -2,6 +2,8 @@
 #include "esphome/core/log.h"
 #include "esphome/core/application.h"
 #include <StreamString.h>
+#include "esphome/core/util.h"
+
 #ifdef ARDUINO_ARCH_ESP32
 #include <AsyncTCP.h>
 #endif
@@ -17,7 +19,7 @@ static const char *TAG = "rtsp_server";
 void RTSPServer::setup() {
   ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
-  AsyncServer* server = new AsyncServer(8554); // start listening on tcp port 8554
+  AsyncServer* server = new AsyncServer( this->port_);
 	server->onClient([](void *s, AsyncClient* c){
     
     if(c == NULL)
@@ -35,6 +37,16 @@ void RTSPServer::setup() {
     this->mark_failed();
   }
 
+
+  this->dump_config();
+}
+
+
+void RTSPServer::set_port(uint16_t port) { this->port_ = port; }
+void RTSPServer::dump_config() {
+  ESP_LOGCONFIG(TAG, "RTSP Server:");
+  ESP_LOGCONFIG(TAG, "  Address: %s:%u", network_get_address().c_str(), this->port_);
+ 
 }
 
 float RTSPServer::get_setup_priority() const {
