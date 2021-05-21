@@ -15,7 +15,7 @@ namespace rtsp_server {
 static const char *TAG = "rtsp_server";
 
 void RTSPServer::setup() {
-  
+  ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
   AsyncServer* server = new AsyncServer(8554); // start listening on tcp port 8554
 	server->onClient([](void *s, AsyncClient* c){
@@ -25,8 +25,21 @@ void RTSPServer::setup() {
     ESP_LOGCONFIG(TAG, "Handling new RTSP server connection request");
     c->setRxTimeout(3);
   }, this);
-	server->begin();
+  ESP_LOGCONFIG(TAG, "Set up RTSP server listener, starting");
+  try {
+    server->begin();
+    ESP_LOGCONFIG(TAG, "Started RTSP server listener");
+  }
+  catch (...) {
+    ESP_LOGCONFIG(TAG, "Failed to start RTSP server listener");
+    this->mark_failed();
+  }
 
+}
+
+float RTSPServer::get_setup_priority() const {
+
+  return setup_priority::LATE;
 }
 
 
