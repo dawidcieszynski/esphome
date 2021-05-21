@@ -22,16 +22,6 @@ CONFIG_SCHEMA = cv.Schema(
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     yield cg.register_component(var, config)
-    
-    if CORE.is_esp32:
-        # https://github.com/esphome/AsyncTCP/blob/master/library.json
-        cg.add_library("esphome/AsyncTCP-esphome", "1.2.2")
-    elif CORE.is_esp8266:
-        # https://github.com/OttoWinter/ESPAsyncTCP
-        cg.add_library("ESPAsyncTCP-esphome", "1.2.3")
-
-    if CORE.is_esp32:
-        cg.add_library("FS", None)
 
     # https://github.com/geeksville/Micro-RTSP
     cg.add_library("Micro-RTSP", "0.1.6")

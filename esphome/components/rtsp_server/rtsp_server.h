@@ -7,13 +7,11 @@ namespace esphome {
 namespace rtsp_server {
 
 class RTSPServer : public Component {
- public:
-  void init() {
-  
-  }
-  void deinit() {
-   
-  }
+
+  public:
+    void setup() override;
   
   
 };
+}
+}
