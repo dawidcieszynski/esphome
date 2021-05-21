@@ -14,9 +14,11 @@ class RTSPServer : public Component {
     void dump_config() override;
 
   void set_port(uint16_t port);
+  void set_camera(void* camera);
   
   private:
     uint16_t port_;
+    void* camera__;
 };
 }
 }

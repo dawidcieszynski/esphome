@@ -43,9 +43,12 @@ void RTSPServer::setup() {
 
 
 void RTSPServer::set_port(uint16_t port) { this->port_ = port; }
+void RTSPServer::set_camera(void* camera) { this->camera__ = camera; }
+
 void RTSPServer::dump_config() {
   ESP_LOGCONFIG(TAG, "RTSP Server:");
   ESP_LOGCONFIG(TAG, "  Address: %s:%u", network_get_address().c_str(), this->port_);
+  ESP_LOGCONFIG(TAG, "  Camera Object: %p", this->camera__ );
  
 }
 

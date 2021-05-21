@@ -5,6 +5,7 @@ from esphome.const import (
     CONF_PORT
 );
 from esphome.core import coroutine_with_priority, CORE
+from esphome.components import esp32_camera
 
 
 CODEOWNERS = ["@crossan007"]
@@ -19,6 +20,7 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(RTSPServer),
         cv.Optional(CONF_PORT, default=8555): cv.port,
+        cv.Required("camera"): cv.use_id(esp32_camera.ESP32Camera),
     }
 )
 
@@ -30,3 +32,5 @@ def to_code(config):
     # https://github.com/geeksville/Micro-RTSP
     cg.add_library("Micro-RTSP", "0.1.6")
     cg.add(var.set_port(config[CONF_PORT]))
+    camera = yield cg.get_variable(config["camera"])
+    cg.add(var.set_camera(camera))
