@@ -28,9 +28,9 @@ CONFIG_SCHEMA = cv.Schema(
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     yield cg.register_component(var, config)
-
-    # https://github.com/geeksville/Micro-RTSP
-    cg.add_library("Micro-RTSP", "0.1.6")
+    cg.add_library("ESPAsyncRTSPServer-esphome", "0.0.1")
+    
+    
     cg.add(var.set_port(config[CONF_PORT]))
     camera = yield cg.get_variable(config["camera"])
     cg.add(var.set_camera(camera))

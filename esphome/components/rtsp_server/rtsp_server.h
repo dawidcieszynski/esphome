@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#include <AsyncRTSPServer.h>
 
 
 namespace esphome {

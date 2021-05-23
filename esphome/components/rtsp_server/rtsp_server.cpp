@@ -3,13 +3,8 @@
 #include "esphome/core/application.h"
 #include <StreamString.h>
 #include "esphome/core/util.h"
+#include "esphome/components/esp32_camera/esp32_camera.h"
 
-#ifdef ARDUINO_ARCH_ESP32
-#include <AsyncTCP.h>
-#endif
-#ifdef ARDUINO_ARCH_ESP8266
-#include <ESPAsyncTCP.h>
-#endif
 
 namespace esphome {
 namespace rtsp_server {
@@ -19,14 +14,13 @@ static const char *TAG = "rtsp_server";
 void RTSPServer::setup() {
   ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
-  AsyncServer* server = new AsyncServer( this->port_);
-	server->onClient([](void *s, AsyncClient* c){
-    
-    if(c == NULL)
-      return;
-    ESP_LOGCONFIG(TAG, "Handling new RTSP server connection request");
-    c->setRxTimeout(3);
+  AsyncRTSPServer* server = new AsyncRTSPServer(this->port_);
+
+  server->onClient([](void *s) {
+    ESP_LOGCONFIG(TAG, "Received RTSP connection");
   }, this);
+    
+	
   ESP_LOGCONFIG(TAG, "Set up RTSP server listener, starting");
   try {
     server->begin();
@@ -35,6 +29,13 @@ void RTSPServer::setup() {
   catch (...) {
     ESP_LOGCONFIG(TAG, "Failed to start RTSP server listener");
     this->mark_failed();
+  }
+
+
+  if (esp32_camera::global_esp32_camera != nullptr) {
+    esp32_camera::global_esp32_camera->add_image_callback([this](std::shared_ptr<esp32_camera::CameraImage> image) {
+      ESP_LOGCONFIG(TAG, "RTSP server received camera frame");
+    });
   }
 
 
