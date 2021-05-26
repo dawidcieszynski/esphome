@@ -14,16 +14,21 @@ static const char *TAG = "rtsp_server";
 void RTSPServer::setup() {
   ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
-  AsyncRTSPServer* server = new AsyncRTSPServer(this->port_);
+  this->server = new AsyncRTSPServer(this->port_);
 
-  server->onClient([](void *s) {
+  this->server->onClient([](void *s) {
     ESP_LOGCONFIG(TAG, "Received RTSP connection");
   }, this);
-    
+
+
+  this->server->setLogFunction([](String s) {
+    ESP_LOGCONFIG(TAG, s.c_str());
+  }, this);
+
 	
   ESP_LOGCONFIG(TAG, "Set up RTSP server listener, starting");
   try {
-    server->begin();
+    this->server->begin();
     ESP_LOGCONFIG(TAG, "Started RTSP server listener");
   }
   catch (...) {
@@ -35,6 +40,9 @@ void RTSPServer::setup() {
   if (esp32_camera::global_esp32_camera != nullptr) {
     esp32_camera::global_esp32_camera->add_image_callback([this](std::shared_ptr<esp32_camera::CameraImage> image) {
       ESP_LOGCONFIG(TAG, "RTSP server received camera frame");
+      uint8_t* data = image->get_data_buffer();
+      size_t length = image->get_data_length();
+      //this->server->pushFrame(data, length);
     });
   }
 

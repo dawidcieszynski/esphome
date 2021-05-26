@@ -1,7 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
-#include <AsyncRTSPServer.h>
+#include <AsyncRTSP.h>
 
 
 namespace esphome {
@@ -20,6 +20,7 @@ class RTSPServer : public Component {
   private:
     uint16_t port_;
     void* camera__;
+    AsyncRTSPServer* server;
 };
 }
 }
