@@ -2,6 +2,7 @@
 
 #include "esphome/core/component.h"
 #include <AsyncRTSP.h>
+#include "esphome/components/esp32_camera/esp32_camera.h"
 
 
 namespace esphome {
@@ -14,13 +15,15 @@ class RTSPServer : public Component {
     float get_setup_priority() const override;
     void dump_config() override;
 
+    void loop();
   void set_port(uint16_t port);
   void set_camera(void* camera);
   
   private:
     uint16_t port_;
-    void* camera__;
+    esp32_camera::ESP32Camera* camera__;
     AsyncRTSPServer* server;
+    dimensions parseCameraDimensions(camera_config_t config);
 };
 }
 }

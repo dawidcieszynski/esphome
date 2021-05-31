@@ -241,6 +241,9 @@ void ESP32Camera::set_frame_size(ESP32CameraFrameSize size) {
       break;
   }
 }
+camera_config_t ESP32Camera::get_camera_config() {
+  return this->config_;
+}
 void ESP32Camera::set_jpeg_quality(uint8_t quality) { this->config_.jpeg_quality = quality; }
 void ESP32Camera::set_reset_pin(uint8_t pin) { this->config_.pin_reset = pin; }
 void ESP32Camera::set_power_down_pin(uint8_t pin) { this->config_.pin_pwdn = pin; }

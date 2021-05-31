@@ -59,6 +59,7 @@ class ESP32Camera : public Component, public Nameable {
   void set_external_clock(uint8_t pin, uint32_t frequency);
   void set_i2c_pins(uint8_t sda, uint8_t scl);
   void set_frame_size(ESP32CameraFrameSize size);
+  camera_config_t get_camera_config();
   void set_jpeg_quality(uint8_t quality);
   void set_reset_pin(uint8_t pin);
   void set_power_down_pin(uint8_t pin);
