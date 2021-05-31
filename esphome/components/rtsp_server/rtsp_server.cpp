@@ -18,11 +18,11 @@ void RTSPServer::setup() {
 
   camera_config_t cameraConfig =  this->camera__->get_camera_config();
 
-  dimensions dim = this->parseCameraDimensions(cameraConfig);
+  this->dim = this->parseCameraDimensions(cameraConfig);
 
   ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
-  this->server = new AsyncRTSPServer(this->port_, dim);
+  this->server = new AsyncRTSPServer(this->port_, this->dim);
 
   this->server->onClient([this](void *s) {
     ESP_LOGCONFIG(TAG, "Received RTSP connection");
@@ -76,30 +76,38 @@ dimensions RTSPServer::parseCameraDimensions(camera_config_t config){
       dim.width = 176;
       dim.height = 144;
       break;
-    /*case ESP32_CAMERA_SIZE_240X176:
-      this->config_.frame_size = FRAMESIZE_HQVGA;
+    case FRAMESIZE_HQVGA:
+      dim.width = 240;
+      dim.height = 176;
       break;
-    case ESP32_CAMERA_SIZE_320X240:
-      this->config_.frame_size = FRAMESIZE_QVGA;
+    case FRAMESIZE_QVGA:
+      dim.width = 320;
+      dim.height = 240;
       break;
-    case ESP32_CAMERA_SIZE_400X296:
-      this->config_.frame_size = FRAMESIZE_CIF;
+    case FRAMESIZE_CIF:
+      dim.width = 400;
+      dim.height = 296;
       break;
-    case ESP32_CAMERA_SIZE_640X480:
-      this->config_.frame_size = FRAMESIZE_VGA;
+    case FRAMESIZE_VGA:
+      dim.width = 640;
+      dim.height = 480;
       break;
-    case ESP32_CAMERA_SIZE_800X600:
-      this->config_.frame_size = FRAMESIZE_SVGA;
+    case FRAMESIZE_SVGA:
+      dim.width = 800;
+      dim.height = 600;
       break;
-    case ESP32_CAMERA_SIZE_1024X768:
-      this->config_.frame_size = FRAMESIZE_XGA;
+    case FRAMESIZE_XGA:
+      dim.width = 1024;
+      dim.height = 768;
       break;
-    case ESP32_CAMERA_SIZE_1280X1024:
-      this->config_.frame_size = FRAMESIZE_SXGA;
+    case FRAMESIZE_SXGA:
+      dim.width = 1280;
+      dim.height = 1024;
       break;
-    case ESP32_CAMERA_SIZE_1600X1200:
-      this->config_.frame_size = FRAMESIZE_UXGA;
-      break;*/
+    case FRAMESIZE_UXGA:
+      dim.width = 1600;
+      dim.height = 1200;
+      break;
   }
   return dim;
 }
@@ -111,6 +119,7 @@ void RTSPServer::dump_config() {
   ESP_LOGCONFIG(TAG, "RTSP Server:");
   ESP_LOGCONFIG(TAG, "  Address: %s:%u", network_get_address().c_str(), this->port_);
   ESP_LOGCONFIG(TAG, "  Camera Object: %p", this->camera__ );
+  ESP_LOGCONFIG(TAG, "  width: %d height: %d ", this->dim.width, this->dim.height  );
  
 }
 

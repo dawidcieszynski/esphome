@@ -16,14 +16,15 @@ class RTSPServer : public Component {
     void dump_config() override;
 
     void loop();
-  void set_port(uint16_t port);
-  void set_camera(void* camera);
+    void set_port(uint16_t port);
+    void set_camera(void* camera);
   
   private:
     uint16_t port_;
     esp32_camera::ESP32Camera* camera__;
     AsyncRTSPServer* server;
     dimensions parseCameraDimensions(camera_config_t config);
+    dimensions dim;
 };
 }
 }
