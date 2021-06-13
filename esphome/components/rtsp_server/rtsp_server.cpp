@@ -68,10 +68,6 @@ dimensions RTSPServer::parseCameraDimensions(camera_config_t config){
       dim.width = 160;
       dim.height = 120;
       break;
-    case FRAMESIZE_QQVGA2:
-      dim.width = 160;
-      dim.height = 128;
-      break;
     case FRAMESIZE_QCIF:
       dim.width = 176;
       dim.height = 144;
