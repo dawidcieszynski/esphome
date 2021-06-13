@@ -58,7 +58,9 @@ void RTSPServer::setup() {
 
 void RTSPServer::loop() {
     if(this->server->hasClients()) {
-      this->camera__->request_stream();
+      // this asks the camera to fetch images and invoke our callback
+      // when it has images ready
+      this->camera__->request_stream(); 
     }
 }
 dimensions RTSPServer::parseCameraDimensions(camera_config_t config){
