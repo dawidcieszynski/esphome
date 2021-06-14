@@ -9,7 +9,7 @@ from esphome.components import esp32_camera
 
 
 CODEOWNERS = ["@crossan007"]
-DEPENDENCIES = ["network"]
+DEPENDENCIES = ["network", "esp32_camera"]
 AUTO_LOAD = ["async_tcp"]
 
 rtsp_server_ns = cg.esphome_ns.namespace("rtsp_server")
