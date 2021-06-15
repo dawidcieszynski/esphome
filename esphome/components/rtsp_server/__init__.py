@@ -4,7 +4,7 @@ from esphome.const import (
     CONF_ID,
     CONF_PORT
 );
-from esphome.core import coroutine_with_priority, CORE
+from esphome.core import CORE
 from esphome.components import esp32_camera
 
 
@@ -24,7 +24,6 @@ CONFIG_SCHEMA = cv.Schema(
     }
 )
 
-@coroutine_with_priority(65.0)
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     yield cg.register_component(var, config)
