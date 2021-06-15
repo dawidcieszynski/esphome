@@ -1,3 +1,5 @@
+#ifdef ARDUINO_ARCH_ESP32
+
 #pragma once
 
 #include "esphome/core/component.h"
@@ -23,8 +25,9 @@ class RTSPServer : public Component {
     uint16_t port_;
     esp32_camera::ESP32Camera* camera__;
     AsyncRTSPServer* server;
-    dimensions parseCameraDimensions(camera_config_t config);
+    dimensions parse_camera_dimensions_(camera_config_t config);
     dimensions dim;
 };
 }
 }
+#endif

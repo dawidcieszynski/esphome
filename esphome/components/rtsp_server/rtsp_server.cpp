@@ -1,3 +1,4 @@
+#ifdef ARDUINO_ARCH_ESP32
 #include "rtsp_server.h"
 #include "esphome/core/log.h"
 #include "esphome/core/application.h"
@@ -18,7 +19,7 @@ void RTSPServer::setup() {
 
   camera_config_t cameraConfig =  this->camera__->get_camera_config();
 
-  this->dim = this->parseCameraDimensions(cameraConfig);
+  this->dim = this->parse_camera_dimensions_(cameraConfig);
 
   ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
   
@@ -63,7 +64,7 @@ void RTSPServer::loop() {
       this->camera__->request_stream(); 
     }
 }
-dimensions RTSPServer::parseCameraDimensions(camera_config_t config){
+dimensions RTSPServer::parse_camera_dimensions_(camera_config_t config){
   struct dimensions dim = {0, 0};
   switch (config.frame_size ) {
     case FRAMESIZE_QQVGA:
@@ -129,3 +130,4 @@ float RTSPServer::get_setup_priority() const {
 
 }  // namespace rtsp_server
 }  // namespace esphome
+#endif
