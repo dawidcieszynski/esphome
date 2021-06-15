@@ -20,7 +20,7 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(RTSPServer),
         cv.Optional(CONF_PORT, default=8555): cv.port,
-        cv.Required("camera"): cv.use_id(esp32_camera.ESP32Camera),
+        cv.GenerateID(CONF_CAMERA): cv.use_id(esp32_camera.ESP32Camera),
     }
 )
 
