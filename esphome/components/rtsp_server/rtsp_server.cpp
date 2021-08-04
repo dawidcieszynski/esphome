@@ -21,21 +21,21 @@ void RTSPServer::setup() {
 
   this->dim = this->parse_camera_dimensions_(cameraConfig);
 
-  ESP_LOGCONFIG(TAG, "Beginning to set up RTSP server listener");
+  ESP_LOGD(TAG, "Beginning to set up RTSP server listener");
   
   this->server = new AsyncRTSPServer(this->port_, this->dim);
 
   this->server->onClient([this](void *s) {
-    ESP_LOGCONFIG(TAG, "Received RTSP connection");
+    ESP_LOGD(TAG, "Received RTSP connection");
   }, this);
 
 
   this->server->setLogFunction([](String s) {
-    ESP_LOGCONFIG(TAG, s.c_str());
+    ESP_LOGD(TAG, s.c_str());
   }, this);
 
 	
-  ESP_LOGCONFIG(TAG, "Set up RTSP server listener, starting");
+  ESP_LOGD(TAG, "Set up RTSP server listener, starting");
   try {
     this->server->begin();
     ESP_LOGCONFIG(TAG, "Started RTSP server listener");
